@@ -134,6 +134,14 @@ const spellTriggers = [
   { value: "6", label: "Learn Spell" },
 ];
 
+const bondingTypes = [
+  { value: "0", label: "No binding" },
+  { value: "1", label: "Binds when picked up" },
+  { value: "2", label: "Binds when equipped" },
+  { value: "3", label: "Binds when used" },
+  { value: "4", label: "Quest item" },
+];
+
 const itemClasses = [
   { value: "0", label: "Consumable" },
   { value: "1", label: "Container" },
@@ -699,6 +707,24 @@ export default function CreateItemTemplatePage() {
                     onChange={(e) => updateField("entry", parseInt(e.target.value) || 0)}
                     min="0"
                   />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="bonding">Bonding</Label>
+                  <Select
+                    value={formData.bonding.toString()}
+                    onValueChange={(value) => updateField("bonding", parseInt(value ?? "") || 0)}
+                  >
+                    <SelectTrigger id="bonding">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {bondingTypes.map((bondingType) => (
+                        <SelectItem key={bondingType.value} value={bondingType.value}>
+                          {bondingType.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="name">Name *</Label>
@@ -1415,16 +1441,6 @@ export default function CreateItemTemplatePage() {
             <CardContent>
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="bonding">Bonding</Label>
-                    <Input
-                      id="bonding"
-                      type="number"
-                      value={formData.bonding}
-                      onChange={(e) => updateField("bonding", parseInt(e.target.value) || 0)}
-                      min="0"
-                    />
-                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="PageText">Page Text</Label>
                     <Input
