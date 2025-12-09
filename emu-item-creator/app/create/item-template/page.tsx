@@ -45,6 +45,17 @@ const inventoryTypes = [
   { value: "28", label: "Relic" },
 ];
 
+const qualityTypes = [
+  { value: "0", label: "Poor" },
+  { value: "1", label: "Common" },
+  { value: "2", label: "Uncommon" },
+  { value: "3", label: "Rare" },
+  { value: "4", label: "Epic" },
+  { value: "5", label: "Legendary" },
+  { value: "6", label: "Artifact" },
+  { value: "7", label: "Heirloom" },
+];
+
 export default function CreateItemTemplatePage() {
   const [formData, setFormData] = useState<ItemTemplate>(defaultItemTemplate);
   const [sqlOutput, setSqlOutput] = useState<string>("");
@@ -274,14 +285,21 @@ export default function CreateItemTemplatePage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="Quality">Quality</Label>
-                  <Input
-                    id="Quality"
-                    type="number"
-                    value={formData.Quality}
-                    onChange={(e) => updateField("Quality", parseInt(e.target.value) || 0)}
-                    min="0"
-                    max="7"
-                  />
+                  <Select
+                    value={formData.Quality.toString()}
+                    onValueChange={(value) => updateField("Quality", parseInt(value) || 0)}
+                  >
+                    <SelectTrigger id="Quality">
+                      <SelectValue placeholder="Select quality" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {qualityTypes.map((type) => (
+                        <SelectItem key={type.value} value={type.value}>
+                          {type.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="Flags">Flags</Label>
