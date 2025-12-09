@@ -13,6 +13,38 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { ItemTemplate, defaultItemTemplate } from "@/lib/types/item-template";
 import { Copy, Download } from "lucide-react";
 
+const inventoryTypes = [
+  { value: "0", label: "Non-equippable" },
+  { value: "1", label: "Head" },
+  { value: "2", label: "Neck" },
+  { value: "3", label: "Shoulder" },
+  { value: "4", label: "Body" },
+  { value: "5", label: "Chest" },
+  { value: "6", label: "Waist" },
+  { value: "7", label: "Legs" },
+  { value: "8", label: "Feet" },
+  { value: "9", label: "Wrists" },
+  { value: "10", label: "Hands" },
+  { value: "11", label: "Finger" },
+  { value: "12", label: "Trinket" },
+  { value: "13", label: "Weapon (One-Handed)" },
+  { value: "14", label: "Shield" },
+  { value: "15", label: "Ranged" },
+  { value: "16", label: "Cloak" },
+  { value: "17", label: "Two-Handed Weapon" },
+  { value: "18", label: "Bag" },
+  { value: "19", label: "Tabard" },
+  { value: "20", label: "Robe" },
+  { value: "21", label: "Main Hand Weapon" },
+  { value: "22", label: "Off Hand Weapon" },
+  { value: "23", label: "Holdable (Tome)" },
+  { value: "24", label: "Ammo" },
+  { value: "25", label: "Thrown" },
+  { value: "26", label: "Ranged Right" },
+  { value: "27", label: "Quiver" },
+  { value: "28", label: "Relic" },
+];
+
 export default function CreateItemTemplatePage() {
   const [formData, setFormData] = useState<ItemTemplate>(defaultItemTemplate);
   const [sqlOutput, setSqlOutput] = useState<string>("");
@@ -273,13 +305,21 @@ export default function CreateItemTemplatePage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="InventoryType">Inventory Type</Label>
-                  <Input
-                    id="InventoryType"
-                    type="number"
-                    value={formData.InventoryType}
-                    onChange={(e) => updateField("InventoryType", parseInt(e.target.value) || 0)}
-                    min="0"
-                  />
+                  <Select
+                    value={formData.InventoryType.toString()}
+                    onValueChange={(value) => updateField("InventoryType", parseInt(value) || 0)}
+                  >
+                    <SelectTrigger id="InventoryType">
+                      <SelectValue placeholder="Select inventory type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {inventoryTypes.map((type) => (
+                        <SelectItem key={type.value} value={type.value}>
+                          {type.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="ItemLevel">Item Level</Label>
