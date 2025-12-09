@@ -67,6 +67,53 @@ const reputationRanks = [
   { value: "7", label: "Exalted" },
 ];
 
+const statTypes = [
+  { value: "0", label: "ITEM_MOD_MANA" },
+  { value: "1", label: "ITEM_MOD_HEALTH" },
+  { value: "3", label: "ITEM_MOD_AGILITY" },
+  { value: "4", label: "ITEM_MOD_STRENGTH" },
+  { value: "5", label: "ITEM_MOD_INTELLECT" },
+  { value: "6", label: "ITEM_MOD_SPIRIT" },
+  { value: "7", label: "ITEM_MOD_STAMINA" },
+  { value: "12", label: "ITEM_MOD_DEFENSE_SKILL_RATING" },
+  { value: "13", label: "ITEM_MOD_DODGE_RATING" },
+  { value: "14", label: "ITEM_MOD_PARRY_RATING" },
+  { value: "15", label: "ITEM_MOD_BLOCK_RATING" },
+  { value: "16", label: "ITEM_MOD_HIT_MELEE_RATING" },
+  { value: "17", label: "ITEM_MOD_HIT_RANGED_RATING" },
+  { value: "18", label: "ITEM_MOD_HIT_SPELL_RATING" },
+  { value: "19", label: "ITEM_MOD_CRIT_MELEE_RATING" },
+  { value: "20", label: "ITEM_MOD_CRIT_RANGED_RATING" },
+  { value: "21", label: "ITEM_MOD_CRIT_SPELL_RATING" },
+  { value: "22", label: "ITEM_MOD_HIT_TAKEN_MELEE_RATING" },
+  { value: "23", label: "ITEM_MOD_HIT_TAKEN_RANGED_RATING" },
+  { value: "24", label: "ITEM_MOD_HIT_TAKEN_SPELL_RATING" },
+  { value: "25", label: "ITEM_MOD_CRIT_TAKEN_MELEE_RATING" },
+  { value: "26", label: "ITEM_MOD_CRIT_TAKEN_RANGED_RATING" },
+  { value: "27", label: "ITEM_MOD_CRIT_TAKEN_SPELL_RATING" },
+  { value: "28", label: "ITEM_MOD_HASTE_MELEE_RATING" },
+  { value: "29", label: "ITEM_MOD_HASTE_RANGED_RATING" },
+  { value: "30", label: "ITEM_MOD_HASTE_SPELL_RATING" },
+  { value: "31", label: "ITEM_MOD_HIT_RATING" },
+  { value: "32", label: "ITEM_MOD_CRIT_RATING" },
+  { value: "33", label: "ITEM_MOD_HIT_TAKEN_RATING" },
+  { value: "34", label: "ITEM_MOD_CRIT_TAKEN_RATING" },
+  { value: "35", label: "ITEM_MOD_RESILIENCE_RATING" },
+  { value: "36", label: "ITEM_MOD_HASTE_RATING" },
+  { value: "37", label: "ITEM_MOD_EXPERTISE_RATING" },
+  { value: "38", label: "ITEM_MOD_ATTACK_POWER" },
+  { value: "39", label: "ITEM_MOD_RANGED_ATTACK_POWER" },
+  { value: "40", label: "ITEM_MOD_FERAL_ATTACK_POWER" },
+  { value: "41", label: "ITEM_MOD_SPELL_HEALING_DONE" },
+  { value: "42", label: "ITEM_MOD_SPELL_DAMAGE_DONE" },
+  { value: "43", label: "ITEM_MOD_MANA_REGENERATION" },
+  { value: "44", label: "ITEM_MOD_ARMOR_PENETRATION_RATING" },
+  { value: "45", label: "ITEM_MOD_SPELL_POWER" },
+  { value: "46", label: "ITEM_MOD_HEALTH_REGEN" },
+  { value: "47", label: "ITEM_MOD_SPELL_PENETRATION" },
+  { value: "48", label: "ITEM_MOD_BLOCK_VALUE" },
+];
+
 const itemClasses = [
   { value: "0", label: "Consumable" },
   { value: "1", label: "Container" },
@@ -971,13 +1018,21 @@ export default function CreateItemTemplatePage() {
                     <h4 className="font-semibold">Stat {num}</h4>
                     <div className="space-y-2">
                       <Label htmlFor={`stat_type${num}`}>Stat Type</Label>
-                      <Input
-                        id={`stat_type${num}`}
-                        type="number"
-                        value={formData[`stat_type${num}` as keyof ItemTemplate] as number}
-                        onChange={(e) => updateField(`stat_type${num}` as keyof ItemTemplate, parseInt(e.target.value) || 0)}
-                        min="0"
-                      />
+                      <Select
+                        value={formData[`stat_type${num}` as keyof ItemTemplate].toString()}
+                        onValueChange={(value) => updateField(`stat_type${num}` as keyof ItemTemplate, parseInt(value ?? "") || 0)}
+                      >
+                        <SelectTrigger id={`stat_type${num}`}>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {statTypes.map((statType) => (
+                            <SelectItem key={statType.value} value={statType.value}>
+                              {statType.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor={`stat_value${num}`}>Stat Value</Label>
