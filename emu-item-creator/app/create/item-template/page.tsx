@@ -125,6 +125,15 @@ const damageTypes = [
   { value: "6", label: "Arcane" },
 ];
 
+const spellTriggers = [
+  { value: "0", label: "Use" },
+  { value: "1", label: "On Equip" },
+  { value: "2", label: "Chance on Hit" },
+  { value: "4", label: "Soulstone" },
+  { value: "5", label: "Use with No Delay" },
+  { value: "6", label: "Learn Spell" },
+];
+
 const itemClasses = [
   { value: "0", label: "Consumable" },
   { value: "1", label: "Container" },
@@ -1325,13 +1334,21 @@ export default function CreateItemTemplatePage() {
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor={`spelltrigger_${num}`}>Spell Trigger</Label>
-                        <Input
-                          id={`spelltrigger_${num}`}
-                          type="number"
-                          value={formData[`spelltrigger_${num}` as keyof ItemTemplate] as number}
-                          onChange={(e) => updateField(`spelltrigger_${num}` as keyof ItemTemplate, parseInt(e.target.value) || 0)}
-                          min="0"
-                        />
+                        <Select
+                          value={formData[`spelltrigger_${num}` as keyof ItemTemplate].toString()}
+                          onValueChange={(value) => updateField(`spelltrigger_${num}` as keyof ItemTemplate, parseInt(value ?? "") || 0)}
+                        >
+                          <SelectTrigger id={`spelltrigger_${num}`}>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {spellTriggers.map((trigger) => (
+                              <SelectItem key={trigger.value} value={trigger.value}>
+                                {trigger.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor={`spellcharges_${num}`}>Spell Charges</Label>
