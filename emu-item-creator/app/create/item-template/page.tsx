@@ -115,6 +115,16 @@ const statTypes = [
   { value: "48", label: "ITEM_MOD_BLOCK_VALUE" },
 ];
 
+const damageTypes = [
+  { value: "0", label: "Normal" },
+  { value: "1", label: "Holy" },
+  { value: "2", label: "Fire" },
+  { value: "3", label: "Nature" },
+  { value: "4", label: "Frost" },
+  { value: "5", label: "Shadow" },
+  { value: "6", label: "Arcane" },
+];
+
 const itemClasses = [
   { value: "0", label: "Consumable" },
   { value: "1", label: "Container" },
@@ -1185,13 +1195,21 @@ export default function CreateItemTemplatePage() {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor={`dmg_type${num}`}>Damage Type</Label>
-                      <Input
-                        id={`dmg_type${num}`}
-                        type="number"
-                        value={formData[`dmg_type${num}` as keyof ItemTemplate] as number}
-                        onChange={(e) => updateField(`dmg_type${num}` as keyof ItemTemplate, parseInt(e.target.value) || 0)}
-                        min="0"
-                      />
+                      <Select
+                        value={formData[`dmg_type${num}` as keyof ItemTemplate].toString()}
+                        onValueChange={(value) => updateField(`dmg_type${num}` as keyof ItemTemplate, parseInt(value ?? "") || 0)}
+                      >
+                        <SelectTrigger id={`dmg_type${num}`}>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {damageTypes.map((damageType) => (
+                            <SelectItem key={damageType.value} value={damageType.value}>
+                              {damageType.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 ))}
