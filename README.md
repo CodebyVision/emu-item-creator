@@ -1,4 +1,7 @@
 # CMangos Item Creator Tool
+
+Supports: tbc cmangos
+
 App developed with next.js framework, please follow this guide on how to set it up.
 
 You need **node.js** installed.
